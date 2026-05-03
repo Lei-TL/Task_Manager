@@ -1,0 +1,27 @@
+type User @table {
+  displayName: String!
+  createdAt: Timestamp!
+  email: String
+  photoUrl: String
+}
+
+type JournalEntry @table {
+  title: String!
+  content: String!
+  entryDate: Date!
+  createdAt: Timestamp!
+  updatedAt: Timestamp!
+  isPrivate: Boolean
+  user: User
+}
+
+type Tag @table {
+  name: String!
+  createdAt: Timestamp!
+}
+
+type JournalEntryTag @table(key: ["journalEntry", "tag"]) {
+  journalEntry: JournalEntry!
+  tag: Tag!
+  createdAt: Timestamp!
+}

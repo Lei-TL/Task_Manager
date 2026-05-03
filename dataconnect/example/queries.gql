@@ -1,0 +1,21 @@
+mutation CreateProduct($name: String!, $description: String!, $price: Float!) @auth(level: USER, insecureReason: "This operation is safe to expose to all logged in users.") {
+  product_insert(data: {name: $name, description: $description, price: $price})
+}
+
+query GetProductById($id: UUID!) @auth(level: PUBLIC, insecureReason: "This operation is safe to expose to the public") {
+  product(key: {id: $id}) {
+    id
+    name
+    description
+    price
+    createdAt
+  }
+}
+
+mutation UpdateProductPrice($id: UUID!, $price: Float!) @auth(level: USER, insecureReason: "This operation is safe to expose to all logged in users.") {
+  product_update(key: {id: $id}, data: {price: $price})
+}
+
+mutation DeleteProduct($id: UUID!) @auth(expr: "auth.token.admin == true") {
+  product_delete(key: {id: $id})
+}
